@@ -1,29 +1,27 @@
-import Image from "next/image";
-import cards from "../../public/cards.png";
-import saved from "../../public/saved.png";
-
+import { Heart, Layers3 } from "lucide-react";
 import Link from "next/link";
 export default function SideBar() {
   return (
-    <>
-      <div className="navbar w-[20vw] bg-gray-100 bg-opacity-65 flex">
-        <div className="options w-full mt-4">
-          <Link href="/home">
-            <div className="option flash-cards flex flex-row justify-center">
-              <Image src={cards} width={"48"} height={"48"} />
-              <span className="text-black text-2xl flex items-center">
-                Flash Cards
-              </span>
-            </div>
-            <div className="option saved-cards flex flex-row justify-center">
-              <Image src={saved} width={"48"} height={"48"} />
-              <span className="text-black text-2xl flex items-center">
-                Flash Cards
-              </span>
-            </div>
-          </Link>
+    <div className="options flex flex-col h-full ">
+      <Link href="/cards" className="flex w-full justify-center">
+        <Layers3 height={35} width={35} strokeWidth={0.75} />
+        <div className="text-black text-2xl" style={{ marginLeft: "8px" }}>
+          Cards
         </div>
-      </div>
-    </>
+      </Link>
+
+      <Link
+        href="/saved"
+        className="option saved-cards w-full flex justify-center pt-4"
+      >
+        <Heart height={35} width={35} strokeWidth={0.75} />
+        <div
+          className="text-black text-2xl flex items-center"
+          style={{ marginLeft: "8px" }}
+        >
+          Saved
+        </div>
+      </Link>
+    </div>
   );
 }
