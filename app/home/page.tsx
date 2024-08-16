@@ -5,8 +5,17 @@ import NavBar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import CardsBoard from "../components/CardsBoard";
 import { FileInput, Label, Progress } from "flowbite-react";
+import ReactiveButton from "reactive-button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
+  const [uploadedFile, setUploadedFile] = useState<FileList | null>(null);
+  const [showFile, setShowFile] = useState<true | false>(false);
+  const [buttonState, setButtonState] = useState("idle");
+  async function generateCards() {
+    setButtonState("loading");
+  }
   return (
     <div className="container w-screen p-0 m-0">
       <div className="h-[20vh]">
@@ -27,8 +36,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="upload-zone w-[70%] h-[80%] mx-auto pt-4 ">
-            <div className="flex w-full h-[80%] items-center justify-center">
+          <div className="upload-zone w-[70%] h-[70%] mx-auto pt-4 ">
+            <div className="flex w-full h-[70%] items-center justify-center">
               <Label
                 htmlFor="dropzone-file"
                 className="shadow-md flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -57,9 +66,41 @@ export default function Home() {
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <FileInput id="dropzone-file" className="hidden" />
+                <FileInput
+                  id="dropzone-file"
+                  className="hidden"
+                  onChange={(e) => {
+                    const files = e.target.files;
+                    if (files) {
+                      console.log(files);
+                      setUploadedFile(files);
+                      setShowFile(true);
+                    }
+                  }}
+                />
               </Label>
             </div>
+            {showFile && (
+              <div className="show-files mt-4 text-black text-2xl">
+                Uploaded file: {uploadedFile?.item(0)?.name}{" "}
+                <ReactiveButton
+                  buttonState={buttonState}
+                  onClick={generateCards}
+                  animation={true}
+                  color="green"
+                  size="large"
+                  idleText="Make cards"
+                  loadingText="Generating..."
+                  successText={
+                    <>
+                      <FontAwesomeIcon icon={faCheck} /> Success
+                    </>
+                  }
+                  errorText="Oops 🫤"
+                  disabled={false}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
