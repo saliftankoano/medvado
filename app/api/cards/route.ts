@@ -41,14 +41,10 @@ export async function POST(req: NextRequest) {
       throw new Error("File could not be created.");
     }
 
-    // Create an assistant
-    const assistant = await openai.beta.assistants.create({
-      name: "Flashcard generator",
-      instructions:
-        "You are an expert flashcard generator for students. Use your knowledge base to create flashcards about provided files.",
-      model: "gpt-4o",
-      tools: [{ type: "file_search" }],
-    });
+    // Use Assistant
+    const assistantId = "asst_KQJa0KKFdLc0xHPkhnPQXMkS";
+
+    const assistant = await openai.beta.assistants.retrieve(assistantId);
 
     // Upload the file using the File object
     const aiFile = await openai.files.create({
@@ -85,7 +81,6 @@ export async function POST(req: NextRequest) {
 
     // Extract the text content from the message
     let flashcards = [];
-    console.log("Message content:", message.content);
 
     if (
       message.content &&

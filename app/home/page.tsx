@@ -25,17 +25,7 @@ export default function Home() {
   const [showDropzone, setShowDropzone] = useState<Boolean>(true);
   const [flashCards, setFlashCards] = useState<FlashCard[]>([]);
 
-  const cardsColors = [
-    "green-500",
-    "blue-500",
-    "red-500",
-    "yellow-500",
-    "purple-500",
-    "pink-500",
-    "gray-500",
-    "lime-500",
-    "cyan-500",
-  ];
+  const cardsColors = ["green-500", "cyan-500", "pink-500"];
 
   const [buttonState, setButtonState] = useState("idle");
 
@@ -66,9 +56,9 @@ export default function Home() {
         body: formData,
       });
       const result = await makeCards.json();
-      console.log(result); // Verify data here
-      console.log(result.flashcards);
-      setFlashCards(result.flashcards || []); // Ensure flashCards is an array
+      // console.log(result); // Verify data here
+      // console.log(result.flashcards);
+      setFlashCards(result.flashcards || []);
     }
 
     setTimeout(() => {
